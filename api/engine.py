@@ -1,6 +1,8 @@
 """
 This file contains functions to regulate game play.
 """
+from timeit import default_timer as timer
+
 from api import State, Deck, util
 from multiprocessing import Process, Manager
 
@@ -18,6 +20,9 @@ def play(
     pr('player1: {}'.format(player1), verbose)
     pr('player2: {}'.format(player2), verbose)
 
+    ms_per_move = [[], []] # One list per player
+    times_late = [0, 0] # One list per player
+
     # The game loop
     while not state.finished():
 
@@ -26,7 +31,13 @@ def play(
         # We introduce a state signature which essentially obscures the deck's perfect knowledge from the player
         given_state = state.clone(signature=state.whose_turn()) if state.get_phase() == 1 else state.clone()
 
+        start = timer()
         move = player.get_move(given_state) if fast else get_move(given_state, player, max_time, verbose)
+        end = timer()
+        ms_per_move[state.whose_turn()-1].append(end-start)
+        if move == 'Late':
+            times_late[state.whose_turn()-1] += 1
+        
 
         if is_valid(move, player): # check for common mistakes
 
@@ -51,7 +62,7 @@ def play(
 
     pr('Game finished. Player {} has won, receiving {} points.'.format(state.winner()[0], state.winner()[1]), verbose)
 
-    return state.winner()
+    return state.winner()[0], state.winner()[1], sum(ms_per_move[0])/len(ms_per_move[0]) if ms_per_move[0] else -1,  sum(ms_per_move[1])/len(ms_per_move[1]) if ms_per_move[1] else -1, times_late[0], times_late[1]
 
 def get_move(state, player, max_time, verbose):
     """
@@ -74,7 +85,6 @@ def get_move(state, player, max_time, verbose):
     process.start()
 
     # Rejoin at most max_time miliseconds later
-    # print(float(max_time))
     process.join(float(max_time)/1000)
 
     # Check if the process terminated in time

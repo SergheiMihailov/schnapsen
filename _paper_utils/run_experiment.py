@@ -40,14 +40,14 @@ def run_experiment(options, is_batch = False):
     if not is_batch: print('✨\tExperiment finished!  \n\tData saved in '+filename)
 
 REPEATS = 10
-MAX_TIME_LIST = [2, 5, 10, 20, 50, 100, 200, 500]
+MAX_TIME_LIST = [1, 2, 3, 4, 5, 10, 20, 50, 100, 200, 500]
 PLAYERS_LIST = ['rand,bully,rdeep,ml']
 
 def run_batch_experiments(repeats, max_time_list, players_list):
     i = 0
 
     print('🧪\tRunning a batch of experiments...')
-    with progressbar.ProgressBar(max_value=(repeats*len(max_time_list)*len(players_list))) as bar:
+    with progressbar.ProgressBar(max_value=repeats*len(max_time_list)*len(players_list)) as bar:
         for max_time in max_time_list:
             for players in players_list:
 
