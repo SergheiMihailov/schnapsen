@@ -4,20 +4,23 @@
 import sys
 import os
 import progressbar
+import pickle
+
+sys.path.append(os.path.realpath('.'))
 
 from tournament import run_tournament
 from argparse import ArgumentParser
+from output_formatters import wins_to_csv
 
 def run_experiment(options, is_batch = False):
     options.phase = 1
     options.fast = False
 
     filename =  os.path.realpath('_paper_utils/results/reps-' + str(options.repeats) + '_time-'+str(options.max_time)+'_players-'+options.players)
-    stdout = sys.stdout
-
+    filename_pkl = filename+'.pkl'
     if (not is_batch):
-        if os.path.exists(filename):
-            print('♻️\tExperiment file already exists: \n\t'+filename)
+        if os.path.exists(filename_pkl):
+            print('♻️\tExperiment file already exists: \n\t'+filename_pkl)
 
             try:
                 input = raw_input
@@ -26,18 +29,17 @@ def run_experiment(options, is_batch = False):
             except NameError:
                 pass
 
-            
         print('🧪\tRunning experiment...')
 
-    sys.stdout = open(filename, 'w')
+    result = run_tournament(options)
 
-    run_tournament(options)
+    open(filename_pkl, 'w').write(pickle.dumps(result))
     
-    sys.stdout = stdout
+    wins_to_csv(filename, result)
 
     if not is_batch: print('✨\tExperiment finished!  \n\tData saved in '+filename)
 
-REPEATS = 100
+REPEATS = 1
 MAX_TIME_LIST = [50, 5, 10, 20, 100, 500]
 PLAYERS_LIST = ['rand,bully,rdeep,ml']
 
