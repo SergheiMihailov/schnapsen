@@ -44,8 +44,9 @@ def run_tournament(options):
                 wins[winner][loser] += score
 
             playedgames += 1
-            print([str(bot).split('.')[1] for bot in bots])
-            print(wins)
+            
+    print([str(bot).split('.')[1] for bot in bots])
+    print(wins)
 
 if __name__ == "__main__":
 

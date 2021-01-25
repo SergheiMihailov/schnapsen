@@ -37,7 +37,7 @@ def run_experiment(options, is_batch = False):
 
     if not is_batch: print('✨\tExperiment finished!  \n\tData saved in '+filename)
 
-REPEATS = 10
+REPEATS = 100
 MAX_TIME_LIST = [50, 5, 10, 20, 100]
 PLAYERS_LIST = ['rand,bully,rdeep,ml']
 
