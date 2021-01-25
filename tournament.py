@@ -19,9 +19,8 @@ def run_tournament(options):
         bots.append(util.load_player(botname))
 
     n = len(bots)
-    wins = [[0]*len(bots)] * len(bots)
+    wins = [[0]*len(bots) for i in range(len(bots))]
     matches = [(p1, p2) for p1 in range(n) for p2 in range(n) if p1 < p2]
-
     totalgames = (n*n - n)/2 * options.repeats
     playedgames = 0
 
@@ -39,12 +38,12 @@ def run_tournament(options):
             winner, score = engine.play(bots[p[0]], bots[p[1]], state, options.max_time, verbose=False, fast=options.fast)
 
             if winner is not None:
-                winner = p[winner - 1]
                 loser = p[winner % 2]
+                winner = p[winner - 1]
                 wins[winner][loser] += score
 
             playedgames += 1
-            
+
     print([str(bot).split('.')[1] for bot in bots])
     print(wins)
 

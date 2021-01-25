@@ -74,8 +74,7 @@ def get_move(state, player, max_time, verbose):
     process.start()
 
     # Rejoin at most max_time miliseconds later
-    # print('max_time: ', float(max_time)/1000)
-    process.join(float(max_time) / 1000)
+    process.join(float(max_time))
 
     # Check if the process terminated in time
     move = None
