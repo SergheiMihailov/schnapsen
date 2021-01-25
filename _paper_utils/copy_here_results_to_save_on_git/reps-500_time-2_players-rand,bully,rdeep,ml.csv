@@ -1,0 +1,6 @@
+ , rand_won, bully_won, rdeep_won, ml_won
+rand_lost, 0, 768, 765, 741
+bully_lost, 732, 0, 771, 735
+rdeep_lost, 735, 729, 0, 717
+ml_lost, 759, 765, 783, 0
+Total pts, 2226, 2262, 2319, 2193
