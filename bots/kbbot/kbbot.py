@@ -30,9 +30,10 @@ class Bot:
                 # Plays the first move that makes the kb inconsistent. We do not take
                 # into account that there might be other valid moves according to the strategy.
                 # Uncomment the next line if you want to see that something happens.
-                # print "Strategy Applied"
+                # print("Strategy Applied")
                 return move
 
+        # print('No strategy')
         # If no move that is entailed by the kb is found, play random move
         return random.choice(moves)
 
@@ -61,10 +62,13 @@ class Bot:
         # PlayJack heuristics that was defined in class. Initialise a different variable if 
         # you want to apply a different strategy (that you will have to define in load.py)
         variable_string = "pj" + str(index)
+        variable_string_ace = "pA" + str(index)
         strategy_variable = Boolean(variable_string)
+        strategy_variable_ace = Boolean(variable_string_ace)
 
         # Add the relevant clause to the loaded knowledge base
         kb.add_clause(~strategy_variable)
+        kb.add_clause(~strategy_variable_ace)
 
         # If the knowledge base is not satisfiable, the strategy variable is
         # entailed (proof by refutation)

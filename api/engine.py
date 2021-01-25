@@ -8,7 +8,7 @@ def play(
             player1,            # type: Bot
             player2,            # type: Bot
             state,              # type: State
-            max_time=5000,      # type: int
+            max_time=5000,      # type: float
             verbose=True,       # type: bool
             fast=False          # type: bool
         ):
@@ -74,7 +74,8 @@ def get_move(state, player, max_time, verbose):
     process.start()
 
     # Rejoin at most max_time miliseconds later
-    process.join(max_time / 1000)
+    # print('max_time: ', float(max_time)/1000)
+    process.join(float(max_time) / 1000)
 
     # Check if the process terminated in time
     move = None

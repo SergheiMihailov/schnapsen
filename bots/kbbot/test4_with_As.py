@@ -1,6 +1,9 @@
-from .kb import KB, Boolean, Integer
+import sys
+from kb import KB, Boolean, Integer, Constant
 
-# Initialise all variables that you need for you strategies and game knowledge.
+# Define our propositional symbols
+# J1 is true if the card with index 1 is a jack, etc
+# You need to initialise all variables that you need for you strategies and game knowledge.
 # Add those variables here.. The following list is complete for the Play Jack strategy.
 J0 = Boolean('j0')
 J1 = Boolean('j1')
@@ -83,38 +86,48 @@ PA17 = Boolean('pA17')
 PA18 = Boolean('pA18')
 PA19 = Boolean('pA19')
 
-def general_information(kb):
-    # GENERAL INFORMATION ABOUT THE CARDS
-    # This adds information which cards are Jacks
-    kb.add_clause(J4)
-    kb.add_clause(J9)
-    kb.add_clause(J14)
-    kb.add_clause(J19)
-    # Add here whatever is needed for your strategy.
-    kb.add_clause(A0)
-    kb.add_clause(A5)
-    kb.add_clause(A10)
-    kb.add_clause(A15)
+# Create a new knowledge base
+kb = KB()
 
-def strategy_knowledge(kb):
-    # DEFINITION OF THE STRATEGY
-    # Add clauses (This list is sufficient for this strategy)
-    # PJ is the strategy to play jacks first, so all we need to model is all x PJ(x) <-> J(x),
-    # In other words that the PJ strategy should play a card when it is a jack
-    kb.add_clause(~J4, PJ4)
-    kb.add_clause(~J9, PJ9)
-    kb.add_clause(~J14, PJ14)
-    kb.add_clause(~J19, PJ19)
-    kb.add_clause(~PJ4, J4)
-    kb.add_clause(~PJ9, J9)
-    kb.add_clause(~PJ14, J14)
-    kb.add_clause(~PJ19, J19)
-    # Add here other strategies
-    kb.add_clause(~A0, PA0)
-    kb.add_clause(~A5, PA5)
-    kb.add_clause(~A10, PA10)
-    kb.add_clause(~A15, PA15)
-    kb.add_clause(~PA0, A0)
-    kb.add_clause(~PA5, A5)
-    kb.add_clause(~PA10, A10)
-    kb.add_clause(~PA15, A15)
+# GENERAL INFORMATION ABOUT THE CARDS
+# This adds information which cards are Jacks
+kb.add_clause(J4)
+kb.add_clause(J9)
+kb.add_clause(J14)
+kb.add_clause(J19)
+kb.add_clause(A0)
+kb.add_clause(A5)
+kb.add_clause(A10)
+kb.add_clause(A15)
+# Add here whatever is needed for your strategy.
+
+# DEFINITION OF THE STRATEGY
+# Add clauses (This list is sufficient for this strategy)
+# PJ is the strategy to play jacks first, so all we need to model is all x PJ(x) <-> J(x),
+# In other words that the PJ strategy should play a card when it is a jack
+kb.add_clause(~J4, PJ4)
+kb.add_clause(~J9, PJ9)
+kb.add_clause(~J14, PJ14)
+kb.add_clause(~J19, PJ19)
+kb.add_clause(~PJ4, J4)
+kb.add_clause(~PJ9, J9)
+kb.add_clause(~PJ14, J14)
+kb.add_clause(~PJ19, J19)
+# Add here other strategies
+kb.add_clause(~A0, PA0)
+kb.add_clause(~A5, PA5)
+kb.add_clause(~A10, PA10)
+kb.add_clause(~A15, PA15)
+kb.add_clause(~PA0, A0)
+kb.add_clause(~PA5, A5)
+kb.add_clause(~PA10, A10)
+kb.add_clause(~PA15, A15)
+
+# kb.add_clause(~PJ4)
+kb.add_clause(~PA0)
+# print all models of the knowledge base
+for model in kb.models():
+    print(model)
+
+# print out whether the KB is satisfiable (if there are no models, it is not satisfiable)
+print(kb.satisfiable())
