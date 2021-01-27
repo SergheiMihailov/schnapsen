@@ -1,0 +1,8 @@
+ , rand_won, bully_won, rdeep_won, ml_won
+rand_lost, 0, 729, 756, 765
+bully_lost, 771, 0, 789, 786
+rdeep_lost, 744, 711, 0, 786
+ml_lost, 735, 714, 714, 0
+Total pts, 2250, 2154, 2259, 2337
+ms per move, 6.98, 7.31, 7.05, 6.86
+times late, 750, 782, 747, 721
