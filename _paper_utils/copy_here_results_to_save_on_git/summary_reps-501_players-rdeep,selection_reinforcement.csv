@@ -1,0 +1,9 @@
+max_time, bot_name, score, ms_per_move, times_late
+20, rdeep, [0, 1421], 0.0176064267163, 22
+20, selection_reinforcement, [67, 0], 0.0277818061057, 468
+50, rdeep, [0, 1466], 0.0218013456111, 0
+50, selection_reinforcement, [3, 0], 0.0529903299566, 467
+100, rdeep, [0, 1478], 0.0226749689975, 0
+100, selection_reinforcement, [0, 0], 0.0914278737161, 469
+200, rdeep, [0, 1471], 0.0224513654671, 0
+200, selection_reinforcement, [2, 0], 0.163732932243, 473

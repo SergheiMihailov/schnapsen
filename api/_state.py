@@ -22,13 +22,16 @@ class State:
 
 	__revoked = None  # type: int, None
 
+	__max_time = None # type: int
+
 	def __init__(self,
 				 deck,
 				 player1s_turn,
 				 p1_points=0,
 				 p2_points=0,
 				 p1_pending_points=0,
-				 p2_pending_points=0
+				 p2_pending_points=0,
+				 max_time=None
 				 ):
 		"""
 		:param deck:			The Deck object which holds the full deck state.
@@ -48,6 +51,8 @@ class State:
 
 		self.__p1_pending_points = p1_pending_points
 		self.__p2_pending_points = p2_pending_points
+
+		self.__max_time = max_time
 
 	def next(self,
 			 move  # type: tuple(int, int)
@@ -271,7 +276,7 @@ class State:
 		"""
 		:return: Returns a deep copy of the current state
 		"""
-		state = State(self.__deck.clone(signature), self.__player1s_turn, self.__p1_points, self.__p2_points, self.__p1_pending_points, self.__p2_pending_points)
+		state = State(self.__deck.clone(signature), self.__player1s_turn, self.__p1_points, self.__p2_points, self.__p1_pending_points, self.__p2_pending_points, self.__max_time)
 		state.__phase = self.__phase
 		state.__leads_turn = self.__leads_turn
 		state.__revoked = self.__revoked
@@ -281,7 +286,7 @@ class State:
 		return state
 
 	@staticmethod
-	def generate(id=None, phase=1):
+	def generate(id=None, phase=1, max_time=5000):
 		"""
 		:param id: The seed used for random generation. Defaults at random, but can be set for deterministic state generation
 		:param phase: The phase at which your generated state starts at
@@ -292,12 +297,12 @@ class State:
 		deck = Deck.generate(id)
 		player1s_turn = rng.choice([True, False])
 
-		state = State(deck, player1s_turn)
+		state = State(deck, player1s_turn,	max_time=max_time)
 
 		if phase == 2:
 			while state.__phase == 1:
 				if state.finished():
-					return State.generate(id if id is None else id+1, phase) # Father forgive me
+					return State.generate(id if id is None else id+1, phase, max_time=max_time) # Father forgive me
 
 				state = state.next(rng.choice(state.moves()))
 
@@ -307,7 +312,6 @@ class State:
 
 			state.__set_points(2, int(total_score/2))
 			state.__p2_pending_points = 0
-
 
 		return state
 
@@ -409,6 +413,12 @@ class State:
 		:return: The current phase
 		"""
 		return self.__phase
+
+	def get_max_time(self):
+    		"""
+		:return: Max time per move
+		"""
+		return self.__max_time
 
 	def make_assumption(self):
 		"""
@@ -571,7 +581,7 @@ class State:
 		Written for the user interface
 		"""
 
-		state = State(Deck.load_from_json(dict['deck']), dict['player1s_turn'], dict['p1_points'], dict['p2_points'], dict['p1_pending_points'], dict['p2_pending_points'])
+		state = State(Deck.load_from_json(dict['deck']), dict['player1s_turn'], dict['p1_points'], dict['p2_points'], dict['p1_pending_points'], dict['p2_pending_points'], dict['max_time'])
 		state.__phase = dict['phase']
 		state.__leads_turn = dict['leads_turn']
 		state.__revoked = dict['revoked']

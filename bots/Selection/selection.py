@@ -13,7 +13,7 @@ import pandas as pd
 
 def selectStrat(state, max_time, options):
     filename =  os.path.realpath('_paper_utils/copy_here_results_to_save_on_git/reps-' + str(options.repeats) + '_time-'+str(options.max_time)+'_players-'+options.players)
-    bots_list, wins_list = pickle.loads(filename)
+    bots_list, score_list = pickle.loads(filename)
 
     col_list = ["rand_won", "bully_won", "rdeep_won", "ml_won"]
     df = pd.read_csv(filename, usecols=col_list)

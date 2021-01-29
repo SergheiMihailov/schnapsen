@@ -29,7 +29,7 @@ def call_engine(options):
 
     # Play the game
 
-    engine.play(player1, player2, state=state, max_time=options.max_time*1000, verbose=(not options.quiet))
+    engine.play(player1, player2, state=state, max_time=options.max_time, verbose=(not options.quiet))
 
 if __name__ == "__main__":
 

@@ -1,0 +1,17 @@
+max_time, bot_name, score, ms_per_move, times_late
+1, selection_basic, [0, 1605], 0.00580116684089, 465
+1, selection_weighted_probability, [1395, 0], 0.006183091038, 535
+2, selection_basic, [0, 1497], 0.00586259436465, 501
+2, selection_weighted_probability, [1503, 0], 0.00603578071632, 499
+5, selection_basic, [0, 2820], 0.00873550957073, 60
+5, selection_weighted_probability, [180, 0], 0.0141043472671, 61
+10, selection_basic, [0, 2982], 0.00906492207579, 6
+10, selection_weighted_probability, [18, 0], 0.017516432884, 5
+20, selection_basic, [0, 3000], 0.0091325189777, 0
+20, selection_weighted_probability, [0, 0], 0.0169862646781, 0
+50, selection_basic, [0, 3000], 0.0159561764932, 0
+50, selection_weighted_probability, [0, 0], 0.0180006888574, 0
+100, selection_basic, [0, 3000], 0.0170136460525, 0
+100, selection_weighted_probability, [0, 0], 0.0181619350068, 0
+200, selection_basic, [0, 3000], 0.016371813125, 0
+200, selection_weighted_probability, [0, 0], 0.0177969632748, 0

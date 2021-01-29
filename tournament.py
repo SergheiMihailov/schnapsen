@@ -19,7 +19,7 @@ def run_tournament(options):
         bots.append(util.load_player(botname))
 
     n = len(bots)
-    wins = [[0]*n for i in range(n)]
+    scores = [[0]*n for i in range(n)]
     avg_ms_move = [[0]*n for i in range(n)]
     times_late = [0]*n
     matches = [(p1, p2) for p1 in range(n) for p2 in range(n) if p1 < p2]
@@ -35,9 +35,10 @@ def run_tournament(options):
                 p = [b, a]
 
             # Generate a state with a random seed
-            state = State.generate(phase=int(options.phase))
+            state = State.generate(phase=int(options.phase), max_time=options.max_time)
+            state.__max_time = options.max_time
 
-            winner, score, avg_ms_move_1, avg_ms_move_2, times_late_1, times_late_2 = engine.play(bots[p[0]], bots[p[1]], state, options.max_time, verbose=False, fast=options.fast)
+            winner, score, avg_ms_move_1, avg_ms_move_2, times_late_1, times_late_2 = engine.play(bots[p[0]], bots[p[1]], state, verbose=False, max_time=options.max_time, fast=options.fast)
 
             avg_ms_move[p[0]].append(avg_ms_move_1)
             avg_ms_move[p[1]].append(avg_ms_move_2)
@@ -48,11 +49,11 @@ def run_tournament(options):
             if winner is not None:
                 loser = p[winner % 2]
                 winner = p[winner - 1]
-                wins[winner][loser] += score
+                scores[winner][loser] += score
 
             playedgames += 1
 
-    return [str(bot).split('.')[1] for bot in bots], wins, map(lambda lst: sum(filter(lambda x: x > 0, lst))/len(lst), avg_ms_move), times_late
+    return [str(bot).split('.')[1] for bot in bots], scores, map(lambda lst: sum(filter(lambda x: x > 0, lst))/len(lst), avg_ms_move), times_late
 
 if __name__ == "__main__":
 

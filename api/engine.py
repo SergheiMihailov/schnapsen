@@ -10,7 +10,7 @@ def play(
             player1,            # type: Bot
             player2,            # type: Bot
             state,              # type: State
-            max_time=5000,      # type: float
+            max_time,
             verbose=True,       # type: bool
             fast=False          # type: bool
         ):
@@ -32,7 +32,7 @@ def play(
         given_state = state.clone(signature=state.whose_turn()) if state.get_phase() == 1 else state.clone()
 
         start = timer()
-        move = player.get_move(given_state) if fast else get_move(given_state, player, max_time, verbose)
+        move = player.get_move(given_state) if fast else get_move(given_state, player, verbose)
         end = timer()
         ms_per_move[state.whose_turn()-1].append(end-start)
         if move == 'Late':
@@ -64,7 +64,7 @@ def play(
 
     return state.winner()[0], state.winner()[1], sum(ms_per_move[0])/len(ms_per_move[0]) if ms_per_move[0] else -1,  sum(ms_per_move[1])/len(ms_per_move[1]) if ms_per_move[1] else -1, times_late[0], times_late[1]
 
-def get_move(state, player, max_time, verbose):
+def get_move(state, player, verbose):
     """
     Asks a player bot for a move. Creates a separate process, so we can kill
     computation if ti exceeds a maximum time.
@@ -85,7 +85,7 @@ def get_move(state, player, max_time, verbose):
     process.start()
 
     # Rejoin at most max_time miliseconds later
-    process.join(float(max_time)/1000)
+    process.join(float(state.get_max_time())/1000)
 
     # Check if the process terminated in time
     move = None
